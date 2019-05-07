@@ -3,9 +3,10 @@ import { Command } from './command';
 
 export class SayHelloCommand extends Command {
   private static readonly logger = L.getLogger("SayHelloCommand");
+  public static readonly cmd: string = '!hello';
 
   public constructor() {
-    super('!hello');
+    super(SayHelloCommand.cmd);
   }
 
   // allow a command like '!hello <user>'

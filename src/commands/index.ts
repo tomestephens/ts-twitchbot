@@ -4,6 +4,7 @@ import { SayHelloCommand } from './say-hello';
 import { DiceCommand } from './dice';
 import { HelpCommand } from './help';
 
+
 export class CommandHandler {
   private static readonly logger = L.getLogger('CommandHandler');
   // just looking for ! followed by some word characters

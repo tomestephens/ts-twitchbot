@@ -1,6 +1,6 @@
 import { Category, CategoryServiceFactory, CategoryConfiguration, LogLevel } from 'typescript-logging';
 
-CategoryServiceFactory.setDefaultConfiguration(new CategoryConfiguration(LogLevel.Debug));
+CategoryServiceFactory.setDefaultConfiguration(new CategoryConfiguration(LogLevel.Info));
 
 export class L {
   private static loggers: { [name: string] : Category; } = {

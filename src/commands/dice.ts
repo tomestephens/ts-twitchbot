@@ -3,9 +3,10 @@ import { Command } from './command';
 
 export class DiceCommand extends Command {
   private static readonly logger = L.getLogger("DiceCommand");
+  public static readonly cmd: string = '!dice';
 
   public constructor() {
-    super('!dice');
+    super(DiceCommand.cmd);
   }
 
   // allow for rolling a dice with a specified number of sides
@@ -16,9 +17,11 @@ export class DiceCommand extends Command {
       const targets = command.split(' ');
       let sides = 6;
 
-      // this could fail in a few weird ways... meh
       if(targets.length > 1 && targets[1].startsWith('d')) {
         sides = parseInt(targets[1].substring(1));
+        if (isNaN(sides)) {
+          return `Couldn't figure out how many sides to that die. Try '!dice d10'`;
+        }
       }
 
       return `You rolled a ${this.rollDice(sides)}!`;
