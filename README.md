@@ -2,7 +2,7 @@ This is a super quick Typescript implementation of the tutorial for chat bots fr
 https://dev.twitch.tv/docs/irc/#building-the-bot
 
 ## Structure
-Designed this so basically all you have to do is take the add new command classes and make sure they are initialized in the command handler. The rest just works.
+Designed so all you have to do is add new command classes and make sure they are initialized in the command handler. Then it just works.
 
 # Run it
 1. Copy `example.config.json` to `config.json`
