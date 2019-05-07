@@ -1,0 +1,22 @@
+{
+  "name": "twitchbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --build",
+    "start": "npm run build && node dist/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tmi.js": "^1.4.2",
+    "typescript-logging": "^0.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "@types/tmi.js": "^1.4.0",
+    "ts-node": "^8.1.0"
+  }
+}

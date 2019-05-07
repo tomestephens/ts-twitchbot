@@ -1,0 +1,7 @@
+{
+  "username": "<< MY_BOT >>",
+  "oath_token": "<< OATH TOKEN >>",
+  "channels": [ "<< CHANNEL TO JOIN >>" ],
+  "clientId": "<< TWITCH CLIENT ID>>",
+  "secret": "<< TWITCH APP SECRET >>"
+}
