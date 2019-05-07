@@ -27,7 +27,7 @@ export class CommandHandler {
 
     if (c !== null) {
       // since we aren't doing a global search only one command
-      let h = this.handlers[c[0]];
+      const h = this.handlers[c[0]];
       if (h !== undefined) { // we have a handler for this command
         return await h.respond(command);
       }
