@@ -7,7 +7,7 @@ class App {
   private bot: Bot;
 
   public constructor() {
-    this.bot = new Bot(config.username, config.oath_token, config.channels, config.secret, config.clientId);
+    this.bot = new Bot(config.username, config.oath_token, config.channels, config.secret, config.clientId, config.notification);
   }
 
   public run() {
