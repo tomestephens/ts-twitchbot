@@ -3,8 +3,6 @@ import { L } from './logging';
 import { CommandHandler } from './commands';
 import { NotificationHandler } from './notifications';
 
-const player = require('node-wav-player');
-
 export class Bot {
   private static readonly logger = L.getLogger('bot');
   private client: tmi.Client;
@@ -62,9 +60,9 @@ export class Bot {
       return;
     }
 
-    this.notifier.notify("on_message");
+    await this.notifier.notify("on_message");
 
-    if(!CommandHandler.isCommand(msg.trim())) {
+    if(CommandHandler.isCommand(msg.trim())) {
       Bot.logger.debug(`Incoming command: ${target} :: ${msg} :: ${context}`);
       const response = await CommandHandler.handle(msg.trim());
 
