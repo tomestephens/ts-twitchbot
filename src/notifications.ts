@@ -17,7 +17,7 @@ export class NotificationHandler {
     }
   }
 
-  public notify(event: string) {
+  public async notify(event: string) {
     if(this.configs[event]) {
       player.play({path: this.configs[event]}).catch(err => {
         NotificationHandler.logger.error(`Failed to play the sound.`, err);
