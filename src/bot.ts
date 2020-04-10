@@ -1,6 +1,7 @@
 import * as tmi from 'tmi.js';
 import { L } from './logging';
 import { CommandHandler } from './commands';
+import { NotificationHandler } from './notifications';
 
 const player = require('node-wav-player');
 
@@ -12,9 +13,9 @@ export class Bot {
   private channels: string[];
   private secret: string;
   private clientId: string;
-  private notification: string;
+  private notifier: NotificationHandler;
 
-  public constructor(username: string, token: string, channels: string[], secret?: string, clientId?: string, notification?: string) {
+  public constructor(username: string, token: string, channels: string[], secret?: string, clientId?: string, notifications?:[any] ) {
     this.username = username;
     this.token = token;
     this.channels = channels;
@@ -23,7 +24,7 @@ export class Bot {
     this.secret = secret || '';
     this.clientId = clientId || '';
 
-    this.notification = notification || '';
+    this.notifier = new NotificationHandler(notifications);
   }
 
   public async start(): Promise<void> {
@@ -55,24 +56,21 @@ export class Bot {
 
   // event handlers
   private onMessage = async (target, context, msg, self): Promise<void> => {
-    // Play a notification on EVERY message. Really? Is that what you want?
-    if(this.notification) {
-      player.play({path: this.notification}).catch(err => {
-        Bot.logger.error(`Failed to play the sound.`, err);
-      });
-    }
-
-    if (!Bot.isCommand(msg, self, context)) {
+    // not a chat message OR is sent by the bot
+    if (context['message-type'] !== 'chat' || self) {
       Bot.logger.debug(`Message is not relevant to the bot`);
       return;
     }
 
-    Bot.logger.debug(`Incoming command: ${target} :: ${msg} :: ${context}`);
-    // Remove whitespace from chat message
-    const response = await CommandHandler.handle(msg.trim());
+    this.notifier.notify("on_message");
 
-    if (response !== null) {
-      await this.say(target, response);
+    if(!CommandHandler.isCommand(msg.trim())) {
+      Bot.logger.debug(`Incoming command: ${target} :: ${msg} :: ${context}`);
+      const response = await CommandHandler.handle(msg.trim());
+
+      if (response !== null) {
+        await this.say(target, response);
+      }
     }
   }
 
@@ -80,34 +78,19 @@ export class Bot {
     if (self) return;
     Bot.logger.info(`${username} has joined...`);
 
-    if (username !== 'unassociated') {
-      //this.say(channel, `Hi ${username}, welcome! I'm your incredibly useful chat bot. Say '!help' to know what I can do.`);
-    }
+    this.notifier.notify("on_join");
+
+    this.say(channel, `Hi ${username}, welcome! I'm your incredibly useful chat bot. Say '!help' to know what I can do.`);
   };
 
   private onPart = (channel, username, self) => {
     if (self) return;
     Bot.logger.info(`${username} has left...`);
+    this.notifier.notify("on_leave");
   };
 
   // Called every time the bot connects to Twitch chat
   private onConnected = (addr: any, port: any): void => {
     Bot.logger.info(`Connected to ${addr}:${port}`);
-  }
-
-  // static methods
-  private static isCommand(msg: string, self: any, context: any): boolean {
-    if (context['message-type'] !== 'chat') {
-      return false;
-    }
-    if (self) {
-      // ignore if command is from self
-      return false;
-    }
-    if (!CommandHandler.isCommand(msg.trim())) {
-      // ignore if it doesn't match the command format
-      return false;
-    }
-    return true;
   }
 }

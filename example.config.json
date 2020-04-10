@@ -4,5 +4,18 @@
   "channels": [ "<< CHANNEL TO JOIN >>" ],
   "clientId": "<< TWITCH CLIENT ID>>",
   "secret": "<< TWITCH APP SECRET >>",
-  "notification": "assets/notif.wav"
+  "notifications": [
+    {
+      "event": "on_message",
+      "sound": "assets/msg.wav"
+    },
+    {
+      "event": "on_join",
+      "sound": "assets/join.wav"
+    },
+    {
+      "event": "on_leave",
+      "sound": "assets/leave.wav"
+    }
+  ]
 }
