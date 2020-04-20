@@ -1,4 +1,5 @@
 import * as tmi from 'tmi.js';
+import * as colors from 'colors/safe';
 import { L } from './logging';
 import { CommandHandler } from './commands';
 import { NotificationHandler } from './notifications';
@@ -74,7 +75,7 @@ export class Bot {
 
   private onJoin = (channel, username, self) => {
     if (self) return;
-    Bot.logger.info(`${username} has joined...`);
+    Bot.logger.info(colors.green(`${username} has joined...`));
 
     this.notifier.notify("on_join");
 
@@ -83,7 +84,7 @@ export class Bot {
 
   private onPart = (channel, username, self) => {
     if (self) return;
-    Bot.logger.info(`${username} has left...`);
+    Bot.logger.info(colors.red(`${username} has left...`));
     this.notifier.notify("on_leave");
   };
 
